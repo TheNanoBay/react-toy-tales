@@ -9,11 +9,13 @@ import ToyContainer from './components/ToyContainer'
 class App extends React.Component{
 
   state = {
+    status: "",
     display: false,
     toys : [],
     newToy: {
       name: '',
-      image:''
+      image:'',
+      likes: 0
     }
   }
 
@@ -40,7 +42,14 @@ class App extends React.Component{
 
     event.preventDefault()
     this.updateBackEnd()
-
+    this.setState({
+      newToy:{
+        name: '',
+        image:'',
+        likes: 0
+      }
+    })
+    
   }
 
   updateBackEnd = () => {
@@ -70,8 +79,29 @@ class App extends React.Component{
         [event.target.name]: event.target.value  
       }
     })
+  }
 
-    console.log(this.state.newToy)
+  deleteToy = (id) =>{
+    let filteredToys = this.state.toys.filter(toy => toy.id !== id)
+
+    this.setState({
+      toys: filteredToys
+    })
+
+  }
+
+  updateToy = (updatedToy) => {
+    const updatedToys = this.state.toys.map(toyObj => {
+      if(toyObj.id === updatedToy.id){
+        return updatedToy
+      } else {  
+        return toyObj
+      }
+    })
+
+    this.setState({
+      toys: updatedToys
+    })
 
   }
 
@@ -85,7 +115,7 @@ class App extends React.Component{
         <div className="buttonContainer">
           <button onClick={this.handleClick}> Add a Toy </button>
         </div>  
-        <ToyContainer toys = {this.state.toys} />
+        <ToyContainer toys = {this.state.toys} deleteToy={this.deleteToy} updateToy={this.updateToy} />
       </>
     );
   }

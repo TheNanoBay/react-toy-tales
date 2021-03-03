@@ -5,7 +5,7 @@ const ToyContainer = (props) => {
   return(
     <div id="toy-collection">
       {props.toys.map((toy) => {
-        return <ToyCard id={toy.id} toyName = {toy.name} toyImg = {toy.image} toyLikes = {toy.likes}/>
+        return <ToyCard key={toy.id} id={toy.id} toyName = {toy.name} toyImg = {toy.image} toyLikes = {toy.likes} deleteToy={props.deleteToy} updateToy={props.updateToy}/>
       })
       }
 
